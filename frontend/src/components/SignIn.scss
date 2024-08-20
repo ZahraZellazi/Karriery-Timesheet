@@ -50,10 +50,16 @@
           background-color: #f0f0f0;
           padding: 10px;
           border-radius: 10px;
+          border: 1px solid transparent; // Default border
+
+          &.error { // Error state
+            border-color: #d13438; // Red border
+            background-color: #fff0f0; // Optional: light red background on error
+          }
 
           .input-icon {
             margin-right: 10px;
-            color: #888;
+            color: #d13438;
           }
 
           input {
@@ -67,10 +73,6 @@
 
             &::placeholder {
               color: #bbb;
-            }
-
-            &.error {
-              border: 1px solid #d13438; 
             }
           }
         }

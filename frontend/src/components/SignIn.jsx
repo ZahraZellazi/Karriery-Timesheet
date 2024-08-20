@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'; 
 import './SignIn.scss';
-import logo from '../assets/logo.png'
+import logo from '../assets/logo.png';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate(); 
 
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -38,6 +40,7 @@ const SignIn = () => {
       setEmail('');
       setPassword('');
       setErrors({});
+      navigate('/calendar'); 
     } else {
       setErrors(newErrors);
     }
