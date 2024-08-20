@@ -1,0 +1,104 @@
+.wrapperI {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+
+  .containerI {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    max-width: 400px;
+    position: relative;
+
+    .logo {
+      display: inline-block;
+      width: 50px;
+      height: auto;
+      vertical-align: middle;
+    }
+
+    .titleI {
+      display: inline-block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-left: 10px;
+      color: #d13438; // Adjusted color to match logo
+      vertical-align: middle;
+    }
+
+    .form-containerI {
+      margin-top: 30px;
+
+      .input-group {
+        margin-bottom: 20px;
+
+        label {
+          display: block;
+          margin-bottom: 8px;
+          font-family: 'Montserrat', sans-serif;
+          color: #555;
+        }
+
+        .input-wrapper {
+          display: flex;
+          align-items: center;
+          background-color: #f0f0f0;
+          padding: 10px;
+          border-radius: 10px;
+
+          .input-icon {
+            margin-right: 10px;
+            color: #888;
+          }
+
+          input {
+            border: none;
+            background: transparent;
+            outline: none;
+            flex: 1;
+            font-family: 'Montserrat', sans-serif;
+            padding-left: 5px; // Adjust placeholder positioning
+            color: #333;
+
+            &::placeholder {
+              color: #bbb;
+            }
+
+            &.error {
+              border: 1px solid #d13438; // Error state color matches logo red
+            }
+          }
+        }
+
+        .error-message {
+          color: #d13438; // Error message color matches logo red
+          font-size: 0.875rem;
+          margin-top: 5px;
+        }
+      }
+
+      .buttonI {
+        display: block;
+        width: 100%;
+        background-color: #d13438; // Button color to match logo red
+        color: #ffffff;
+        padding: 12px;
+        border: none;
+        border-radius: 20px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #b02d2e; // Darker shade of the red
+        }
+      }
+    }
+  }
+}
