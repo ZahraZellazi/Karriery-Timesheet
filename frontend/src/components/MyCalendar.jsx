@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import * as XLSX from 'xlsx';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './Calendar.scss'; 
 
@@ -36,19 +39,84 @@ const CustomToolbar = (toolbar) => {
 };
 
 const MyCalendar = () => {
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [exportEnabled, setExportEnabled] = useState(false);
+
+  
+  const handleSelect = ({ start }) => {
+    if (!startDate) {
+      setStartDate(start); 
+    } else if (!endDate) {
+      if (start >= startDate) {
+        setEndDate(start); 
+        setExportEnabled(true); 
+      } else {
+        setStartDate(start); 
+      }
+    } else {
+      setStartDate(start); 
+      setEndDate(null);
+      setExportEnabled(false); 
+    }
+  };
+
+  // Excel
+  const exportToExcel = () => {
+    const data = [
+      ['Start Date', startDate?.toLocaleDateString()],
+      ['End Date', endDate?.toLocaleDateString()],
+    ];
+
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Date Range');
+    XLSX.writeFile(wb, 'DateRange.xlsx');
+  };
+
   return (
     <div className="calendar-container">
+      <div className="date-picker-container">
+        <div>
+          <label>Start Date: </label>
+          <DatePicker
+            selected={startDate}
+            onChange={() => {}} 
+            dateFormat="MM/dd/yyyy"
+            readOnly
+          />
+        </div>
+        <div>
+          <label>End Date: </label>
+          <DatePicker
+            selected={endDate}
+            onChange={() => {}} 
+            dateFormat="MM/dd/yyyy"
+            readOnly
+          />
+        </div>
+        <button
+          className="export-btn"
+          onClick={exportToExcel}
+          disabled={!exportEnabled}
+        >
+          Export to Excel
+        </button>
+      </div>
       <Calendar
         localizer={localizer}
         events={[]} 
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 700, width: '100%' }} 
+        selectable
+        onSelectSlot={handleSelect} 
+        style={{ height: 650, width: '100%' }} 
         components={{
           toolbar: CustomToolbar,
         }}
         views={['month']}
         defaultView="month"
+        selectRange={false} 
       />
     </div>
   );

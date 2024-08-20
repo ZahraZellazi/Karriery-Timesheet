@@ -1,19 +1,55 @@
 .calendar-container {
+  .date-picker-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+
+    label {
+      font-size: 16px;
+      margin-right: 10px;
+      color: #333;
+    }
+
+    .react-datepicker-wrapper {
+      width: auto;
+    }
+
+    .export-btn {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:disabled {
+        background-color: grey;
+        cursor: not-allowed;
+      }
+
+      &:hover:not(:disabled) {
+        background-color: #c0392b;
+      }
+    }
+  }
+
   .rbc-toolbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #fff;
-    border-bottom: 3px solid #e74c3c; 
-    padding: 15px 0; 
+    border-bottom: 3px solid #e74c3c;
+    padding: 15px 0;
 
     .rbc-btn-group {
       button {
         background-color: transparent;
         color: #333;
-        font-size: 25px; 
+        font-size: 28px;
         border: none;
-        padding: 15px; 
+        padding: 15px;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -29,12 +65,12 @@
     }
 
     .rbc-toolbar-label {
-      font-size: 32px; 
+      font-size: 32px;
       color: #e74c3c;
     }
   }
 
   .rbc-month-view {
-    font-size: 16px; 
+    font-size: 16px;
   }
 }
