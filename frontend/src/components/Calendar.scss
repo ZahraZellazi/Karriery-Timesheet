@@ -1,0 +1,40 @@
+.calendar-container {
+  .rbc-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border-bottom: 3px solid #e74c3c; 
+    padding: 15px 0; 
+
+    .rbc-btn-group {
+      button {
+        background-color: transparent;
+        color: #333;
+        font-size: 25px; 
+        border: none;
+        padding: 15px; 
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+          color: #e74c3c;
+        }
+
+        &.rbc-active {
+          color: #e74c3c;
+        }
+      }
+    }
+
+    .rbc-toolbar-label {
+      font-size: 32px; 
+      color: #e74c3c;
+    }
+  }
+
+  .rbc-month-view {
+    font-size: 16px; 
+  }
+}
