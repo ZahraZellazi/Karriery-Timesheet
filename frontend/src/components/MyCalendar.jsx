@@ -66,8 +66,8 @@ const MyCalendar = () => {
 
     const ws = XLSX.utils.aoa_to_sheet(data);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Date Range');
-    XLSX.writeFile(wb, 'DateRange.xlsx');
+    XLSX.utils.book_append_sheet(wb, ws, 'file');
+    XLSX.writeFile(wb, 'file.xlsx');
   };
 
   return (
