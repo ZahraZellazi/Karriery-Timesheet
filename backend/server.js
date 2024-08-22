@@ -8,11 +8,10 @@ const cors = require('cors');
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
-// DB Connection
+// DB cnx
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -28,23 +27,22 @@ db.connect((err) => {
   console.log('Connected to MySQL database.');
 });
 
-// Signup Route
+// Signup
 app.post('/signup', async (req, res) => {
   const { firstname, lastname, email, password } = req.body;
 
-  // Check if fields are missing
   if (!firstname) return res.status(400).json({ message: 'First name is required' });
   if (!lastname) return res.status(400).json({ message: 'Last name is required' });
   if (!email) return res.status(400).json({ message: 'Email is required' });
   if (!password) return res.status(400).json({ message: 'Password is required' });
 
-  // Validate email format
+  //email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     return res.status(400).json({ message: 'Invalid email address' });
   }
 
-  // Validate password complexity
+  //pass
   const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$&*]).{8,}$/;
   if (!passwordRegex.test(password)) {
     return res.status(400).json({ message: 'Password must be at least 8 characters long, contain at least one special character, and one uppercase letter' });
@@ -53,7 +51,7 @@ app.post('/signup', async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Insert user into the database
+    //+ User
     const query = 'INSERT INTO users (firstname, lastname, email, password) VALUES (?, ?, ?, ?)';
     db.query(query, [firstname, lastname, email, hashedPassword], (err, result) => {
       if (err) {
@@ -66,21 +64,21 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-// Login Route
+//login
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
 
-  // Check if fields are missing
+  
   if (!email) return res.status(400).json({ message: 'Email is required' });
   if (!password) return res.status(400).json({ message: 'Password is required' });
 
-  // Validate email format
+  //email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     return res.status(400).json({ message: 'Invalid email address' });
   }
 
-  // Check if user exists in the database
+  // user ? => 
   const query = 'SELECT * FROM users WHERE email = ?';
   db.query(query, [email], async (err, results) => {
     if (err) {
@@ -92,13 +90,13 @@ app.post('/login', (req, res) => {
 
     const user = results[0];
 
-    // Compare password
+    // Compare pass
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    // Generate JWT token
+    //JWT
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: '1h'
     });
@@ -107,7 +105,7 @@ app.post('/login', (req, res) => {
   });
 });
 
-// Start the server
+
 const PORT = process.env.PORT || 7050;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
