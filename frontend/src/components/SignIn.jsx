@@ -3,6 +3,7 @@ import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom'; 
+import axios from 'axios'; 
 import './SignIn.scss';
 import logo from '../assets/logo.png';
 
@@ -22,7 +23,7 @@ const SignIn = () => {
     return re.test(password);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
 
@@ -35,12 +36,21 @@ const SignIn = () => {
     }
 
     if (Object.keys(newErrors).length === 0) {
-      console.log('Form submitted', { email, password });
-      toast.success('Sign in successful!');
-      setEmail('');
-      setPassword('');
-      setErrors({});
-      navigate('/calendar'); 
+      try {
+        const response = await axios.post('http://localhost:7050/login', { email, password });
+        console.log('Login successful:', response.data);
+        toast.success('Sign in successful!');
+        setEmail('');
+        setPassword('');
+        setErrors({});
+        navigate('/calendar'); 
+      } catch (error) {
+        if (error.response) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error('An error occurred.');
+        }
+      }
     } else {
       setErrors(newErrors);
     }
