@@ -3,37 +3,40 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import { FaCalendarAlt } from 'react-icons/fa';
 import * as XLSX from 'xlsx';
 import './Calendar.scss';
 
 const MyCalendar = () => {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [exportEnabled, setExportEnabled] = useState(false);
-  const [calendarWidth, setCalendarWidth] = useState('100%'); 
+  const [calendarWidth, setCalendarWidth] = useState('100%');
 
-  const handleStartDateChange = (date) => {
+  const minDate = '1000-01-01'; // Minimum date in YYYY-MM-DD format
+  const maxDate = '3000-12-31'; // Maximum date in YYYY-MM-DD format
+
+  const handleStartDateChange = (event) => {
+    const date = event.target.value;
     setStartDate(date);
     if (endDate && date > endDate) {
-      setEndDate(null);
+      setEndDate('');
       setExportEnabled(false);
+    } else {
+      setExportEnabled(endDate !== '');
     }
   };
 
-  const handleEndDateChange = (date) => {
+  const handleEndDateChange = (event) => {
+    const date = event.target.value;
     setEndDate(date);
-    if (startDate && date >= startDate) {
-      setExportEnabled(true);
-    }
+    setExportEnabled(startDate && date >= startDate);
   };
 
   const exportToExcel = () => {
     const data = [
-      ['Start Date', startDate?.toLocaleDateString()],
-      ['End Date', endDate?.toLocaleDateString()],
+      ['Start Date', startDate],
+      ['End Date', endDate],
     ];
 
     const ws = XLSX.utils.aoa_to_sheet(data);
@@ -46,33 +49,28 @@ const MyCalendar = () => {
     <div className="calendar-container">
       <div className="date-picker-container">
         <div>
-          <label>Start Date: </label>
-          <div className="react-datepicker-wrapper">
-            <DatePicker
-              selected={startDate}
-              onChange={handleStartDateChange}
-              dateFormat="dd/MM/yyyy"
-              placeholderText="Select Start Date"
-              minDate={null}
-              maxDate={endDate}
-              showPopperArrow={false}
-            />
-            <FaCalendarAlt className="calendar-icon" />
-          </div>
+          <label htmlFor="start">Start Date: </label>
+          <input
+            type="date"
+            id="start"
+            name="trip-start"
+            value={startDate}
+            min={minDate}
+            max={maxDate}
+            onChange={handleStartDateChange}
+          />
         </div>
         <div>
-          <label>End Date: </label>
-          <div className="react-datepicker-wrapper">
-            <DatePicker
-              selected={endDate}
-              onChange={handleEndDateChange}
-              dateFormat="dd/MM/yyyy"
-              placeholderText="Select End Date"
-              minDate={startDate}
-              showPopperArrow={false}
-            />
-            <FaCalendarAlt className="calendar-icon" />
-          </div>
+          <label htmlFor="end">End Date: </label>
+          <input
+            type="date"
+            id="end"
+            name="trip-end"
+            value={endDate}
+            min={startDate || minDate} // Min date is either the start date or the minimum date
+            max={maxDate}
+            onChange={handleEndDateChange}
+          />
         </div>
         <button
           className="export-btn"
@@ -84,13 +82,13 @@ const MyCalendar = () => {
       </div>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth" 
+        initialView="dayGridMonth"
         selectable
         dateClick={(info) => {
           if (!startDate) {
-            handleStartDateChange(info.date);
+            handleStartDateChange({ target: { value: info.dateStr } });
           } else {
-            handleEndDateChange(info.date);
+            handleEndDateChange({ target: { value: info.dateStr } });
           }
         }}
         headerToolbar={{
