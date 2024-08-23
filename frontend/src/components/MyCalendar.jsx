@@ -3,7 +3,6 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { FaCalendarAlt } from 'react-icons/fa';
 import * as XLSX from 'xlsx';
 import './Calendar.scss';
 
@@ -13,8 +12,13 @@ const MyCalendar = () => {
   const [exportEnabled, setExportEnabled] = useState(false);
   const [calendarWidth, setCalendarWidth] = useState('100%');
 
-  const minDate = '1000-01-01'; // Minimum date in YYYY-MM-DD format
-  const maxDate = '3000-12-31'; // Maximum date in YYYY-MM-DD format
+  const minDate = '1000-01-01'; 
+  const maxDate = '3000-12-31'; 
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+  };
 
   const handleStartDateChange = (event) => {
     const date = event.target.value;
@@ -35,8 +39,8 @@ const MyCalendar = () => {
 
   const exportToExcel = () => {
     const data = [
-      ['Start Date', startDate],
-      ['End Date', endDate],
+      ['Start Date', formatDate(startDate)],
+      ['End Date', formatDate(endDate)],
     ];
 
     const ws = XLSX.utils.aoa_to_sheet(data);
@@ -67,7 +71,7 @@ const MyCalendar = () => {
             id="end"
             name="trip-end"
             value={endDate}
-            min={startDate || minDate} // Min date is either the start date or the minimum date
+            min={startDate || minDate} 
             max={maxDate}
             onChange={handleEndDateChange}
           />
@@ -96,7 +100,7 @@ const MyCalendar = () => {
           center: 'title',
           right: '',
         }}
-        style={{ height: '450px', width: calendarWidth }} // Fixed height and controllable width
+        style={{ height: '450px', width: calendarWidth }} 
       />
     </div>
   );
