@@ -1,47 +1,19 @@
 import React, { useState } from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { FaArrowLeft, FaArrowRight, FaCalendarAlt } from 'react-icons/fa';
+import { FaCalendarAlt } from 'react-icons/fa';
 import * as XLSX from 'xlsx';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import './Calendar.scss'; 
-
-const localizer = momentLocalizer(moment);
-
-const CustomToolbar = (toolbar) => {
-  const goToBack = () => {
-    toolbar.onNavigate('PREV');
-  };
-
-  const goToNext = () => {
-    toolbar.onNavigate('NEXT');
-  };
-
-  const label = toolbar.label;
-
-  return (
-    <div className="rbc-toolbar">
-      <span className="rbc-btn-group">
-        <button onClick={goToBack}>
-          <FaArrowLeft /> 
-        </button>
-      </span>
-      <span className="rbc-toolbar-label">{label}</span>
-      <span className="rbc-btn-group">
-        <button onClick={goToNext}>
-          <FaArrowRight /> 
-        </button>
-      </span>
-    </div>
-  );
-};
+import './Calendar.scss';
 
 const MyCalendar = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [exportEnabled, setExportEnabled] = useState(false);
+  const [calendarWidth, setCalendarWidth] = useState('100%'); 
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -110,23 +82,23 @@ const MyCalendar = () => {
           Export to Excel
         </button>
       </div>
-      <Calendar
-        localizer={localizer}
-        events={[]} 
-        startAccessor="start"
-        endAccessor="end"
+      <FullCalendar
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        initialView="dayGridMonth" 
         selectable
-        onSelectSlot={({ start }) => {
+        dateClick={(info) => {
           if (!startDate) {
-            handleStartDateChange(start);
+            handleStartDateChange(info.date);
           } else {
-            handleEndDateChange(start);
+            handleEndDateChange(info.date);
           }
         }}
-        style={{ height: 650, width: '100%' }} 
-        components={{ toolbar: CustomToolbar }}
-        views={['month']}
-        defaultView="month"
+        headerToolbar={{
+          left: 'prev,next today',
+          center: 'title',
+          right: '',
+        }}
+        style={{ height: '450px', width: calendarWidth }} // Fixed height and controllable width
       />
     </div>
   );
