@@ -3,7 +3,7 @@ const { signup, login, getUserById, getAllUsers, updateUser, deleteUser } = requ
 const { validateSignup } = require('../middlewares/validate');
 
 const router = express.Router();
-//user
+
 router.post('/signup', validateSignup, signup);
 router.post('/login', login);
 router.get('/users', getAllUsers); //all users

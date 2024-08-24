@@ -1,29 +1,47 @@
-// src/controllers/dayController.js
 const Day = require('../models/day');
 
-// Create a new Day
+// Add
 const createDay = async (req, res) => {
   const { date, workingHours, isHoliday } = req.body;
 
   try {
-    const newDay = await Day.create({ date, workingHours, isHoliday });
-    res.status(201).json(newDay);
+    await Day.create({ date, workingHours, isHoliday });
+    res.status(201).json({ message: 'Day created successfully!' });
   } catch (error) {
-    res.status(500).json({ code: 'INTERNAL_ERROR', message: 'Internal server error' });
+    console.error(error); 
+    res.status(500).json({ message: 'Failed to create Day. Please try again.' });
   }
 };
 
-// Get all Days
+// Get a Day 
+const getDayById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const day = await Day.findByPk(id);
+    if (!day) {
+      return res.status(404).json({ message: 'Day not found.' });
+    }
+
+    res.status(200).json(day);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to retrieve Day. Please try again.' });
+  }
+};
+
+// Get 
 const getAllDays = async (req, res) => {
   try {
     const days = await Day.findAll();
     res.status(200).json(days);
   } catch (error) {
-    res.status(500).json({ code: 'INTERNAL_ERROR', message: 'Internal server error' });
+    console.error(error);
+    res.status(500).json({ message: 'Failed to retrieve Days. Please try again.' });
   }
 };
 
-// Update a Day
+// Up
 const updateDay = async (req, res) => {
   const { id } = req.params;
   const { date, workingHours, isHoliday } = req.body;
@@ -31,7 +49,7 @@ const updateDay = async (req, res) => {
   try {
     const day = await Day.findByPk(id);
     if (!day) {
-      return res.status(404).json({ code: 'NOT_FOUND', message: 'Day not found' });
+      return res.status(404).json({ message: 'Day not found.' });
     }
 
     day.date = date;
@@ -39,31 +57,34 @@ const updateDay = async (req, res) => {
     day.isHoliday = isHoliday;
     await day.save();
 
-    res.status(200).json(day);
+    res.status(200).json({ message: 'Day updated successfully!' });
   } catch (error) {
-    res.status(500).json({ code: 'INTERNAL_ERROR', message: 'Internal server error' });
+    console.error(error);
+    res.status(500).json({ message: 'Failed to update Day. Please try again.' });
   }
 };
 
-// Delete a Day
+// Del
 const deleteDay = async (req, res) => {
   const { id } = req.params;
 
   try {
     const day = await Day.findByPk(id);
     if (!day) {
-      return res.status(404).json({ code: 'NOT_FOUND', message: 'Day not found' });
+      return res.status(404).json({ message: 'Day not found.' });
     }
 
     await day.destroy();
-    res.status(204).send(); // No content
+    res.status(200).json({ message: 'Day deleted successfully!' }); 
   } catch (error) {
-    res.status(500).json({ code: 'INTERNAL_ERROR', message: 'Internal server error' });
+    console.error(error);
+    res.status(500).json({ message: 'Failed to delete Day. Please try again.' });
   }
 };
 
 module.exports = {
   createDay,
+  getDayById, 
   getAllDays,
   updateDay,
   deleteDay
