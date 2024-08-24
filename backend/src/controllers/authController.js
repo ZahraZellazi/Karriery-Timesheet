@@ -42,7 +42,7 @@ const login = async (req, res) => {
 };
 
 
-// GET: Fetch a single user by ID
+//get
 const getUserById = async (req, res) => {
   const { id } = req.params;
 
@@ -57,7 +57,6 @@ const getUserById = async (req, res) => {
   }
 };
 
-// GET: Fetch all users
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.findAll();
@@ -67,7 +66,7 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-// PUT: Update user by ID
+//put
 const updateUser = async (req, res) => {
   const { id } = req.params;
   const { firstname, lastname, email, password } = req.body;
@@ -78,7 +77,6 @@ const updateUser = async (req, res) => {
       return res.status(404).json({ code: 'USER_NOT_FOUND', message: 'User not found' });
     }
 
-    // Hash password if it's being updated
     let hashedPassword = user.password;
     if (password) {
       hashedPassword = await bcrypt.hash(password, 10);
@@ -91,7 +89,7 @@ const updateUser = async (req, res) => {
   }
 };
 
-// DELETE: Delete user by ID
+//del
 const deleteUser = async (req, res) => {
   const { id } = req.params;
 

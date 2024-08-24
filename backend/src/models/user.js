@@ -1,5 +1,5 @@
-const { Sequelize, DataTypes } = require('sequelize'); // Import Sequelize and DataTypes
-const sequelize = require('../config/db'); // Import your Sequelize instance
+const { Sequelize, DataTypes } = require('sequelize'); 
+const sequelize = require('../config/db'); 
 
 const User = sequelize.define('User', {
   firstname: {
@@ -20,7 +20,7 @@ const User = sequelize.define('User', {
     allowNull: false
   }
 }, {
-  timestamps: false // Enable timestamps (createdAt, updatedAt)
+  timestamps: false 
 });
 
 module.exports = User;
