@@ -1,36 +1,29 @@
+//order of imports is important !!
 require('dotenv').config();
 const express = require('express');
+const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const sequelize = require('./src/config/db'); 
+const relations = require('./src/models/index');
+const sequelize = require('./src/config/db');
 
-const app = express();
+//you should allow your frontend only ( assusming your frontend app runs on 3000)
+app.use(cors({
+  origin: 'http://localhost:3000',
+}));
 
-app.use(cors());
 app.use(bodyParser.json());
 
-
+//routes
 app.use('/', require('./src/routes/authRoutes'));
 app.use('/', require('./src/routes/dayRoutes'));
-
-// Db cnx
-sequelize.authenticate()
-  .then(() => {
-    console.log('Connection to MySQL has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
-
+app.use('/', require('./src/routes/calendarRoutes'));
 
 const PORT = process.env.PORT || 7050;
 
-sequelize.sync() 
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.error('Unable to sync the database:', err);
-  });
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+

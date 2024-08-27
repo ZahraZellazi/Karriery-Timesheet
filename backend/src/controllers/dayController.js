@@ -1,4 +1,4 @@
-const Day = require('../models/day');
+const Day = require('../models/day.entity');
 
 // Add
 const createDay = async (req, res) => {
