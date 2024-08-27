@@ -1,23 +1,23 @@
+const sequelizeConfig = require('../config/db');  
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db'); 
 
-const Day = sequelize.define('Day', {
+const Day = sequelizeConfig.define('Day', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
-  date: {
-    type: DataTypes.DATE,
-    allowNull: false
-  },
-  workingHours: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  isHoliday: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false 
+  hours: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  number: {
+    type: DataTypes.INTEGER,
+    defaultValue: false
   }
 }, {
   timestamps: false
