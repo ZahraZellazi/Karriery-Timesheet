@@ -5,15 +5,17 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import * as XLSX from 'xlsx';
 import './Calendar.scss';
+import DropdownYears from '../Dropdown/dropdown';
 
 const MyCalendar = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [exportEnabled, setExportEnabled] = useState(false);
-  const [calendarWidth, setCalendarWidth] = useState('100%');
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); 
+  const calendarRef = React.createRef(); 
 
-  const minDate = '1000-01-01'; 
-  const maxDate = '3000-12-31'; 
+  const minDate = '1000-01-01';
+  const maxDate = '3000-12-31';
 
   const formatDate = (date) => {
     const d = new Date(date);
@@ -48,10 +50,17 @@ const MyCalendar = () => {
     XLSX.utils.book_append_sheet(wb, ws, 'file');
     XLSX.writeFile(wb, 'file.xlsx');
   };
+//drop down : calender gets set to the chosen year  
+  const handleYearSelect = (year) => {
+    setSelectedYear(year);
+    const calendarApi = calendarRef.current.getApi();
+    calendarApi.gotoDate(`${year}-01-01`); 
+  };
 
   return (
     <div className="calendar-container">
       <div className="date-picker-container">
+        <DropdownYears selectedYear={selectedYear} onYearChange={handleYearSelect} />
         <div>
           <label htmlFor="start">Start Date: </label>
           <input
@@ -71,7 +80,7 @@ const MyCalendar = () => {
             id="end"
             name="trip-end"
             value={endDate}
-            min={startDate || minDate} 
+            min={startDate || minDate}
             max={maxDate}
             onChange={handleEndDateChange}
           />
@@ -85,6 +94,7 @@ const MyCalendar = () => {
         </button>
       </div>
       <FullCalendar
+        ref={calendarRef}
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         selectable
@@ -100,7 +110,7 @@ const MyCalendar = () => {
           center: 'title',
           right: '',
         }}
-        style={{ height: '450px', width: calendarWidth }} 
+        style={{ height: '450px', width: '100%' }}
       />
     </div>
   );

@@ -7,7 +7,7 @@ const cors = require('cors');
 const relations = require('./src/models/index');
 const sequelize = require('./src/config/db');
 
-//you should allow your frontend only ( assusming your frontend app runs on 5173)
+//you should allow your frontend only 
 app.use(cors({
   origin: 'http://localhost:5173',
 }));
