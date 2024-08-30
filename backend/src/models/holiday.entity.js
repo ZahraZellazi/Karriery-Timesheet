@@ -1,6 +1,12 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
+//enum values/freeze
+const HolidayTypes = Object.freeze({
+  PUBLIC_HOLIDAY: 'Public holiday',
+  PERSONNEL_HOLIDAY: 'Personnel holiday',
+  OTHER: 'other'
+});
 
 const Holiday = sequelize.define('Holiday', {
   id: {
@@ -17,7 +23,11 @@ const Holiday = sequelize.define('Holiday', {
     allowNull: false
   },
   type: {
-    type: DataTypes.ENUM('Public holiday', 'Personnel holiday', 'other'),
+    type: DataTypes.ENUM(
+      HolidayTypes.PUBLIC_HOLIDAY,
+      HolidayTypes.PERSONNEL_HOLIDAY,
+      HolidayTypes.OTHER
+    ),
     allowNull: false
   },
   otherTypeHoliday: {
@@ -28,4 +38,4 @@ const Holiday = sequelize.define('Holiday', {
   timestamps: false 
 });
 
-module.exports = Holiday;
+module.exports = { Holiday, HolidayTypes };
