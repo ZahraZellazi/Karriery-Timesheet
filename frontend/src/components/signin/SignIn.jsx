@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios'; 
 import './SignIn.scss';
-import logo from '../assets/logo.png';
+import logo from './logo.png';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -57,10 +57,10 @@ const SignIn = () => {
   };
 
   return (
-    <div className="wrapperI">
+    <div className="wrapperI"> 
       <div className="containerI">
         <img src={logo} alt="Logo" className="logo" />
-        <div className="titleI">Karriery Time-sheet</div>
+        <div className="titleI">Karriery Rh application</div>
         <div className="form-containerI">
           <form onSubmit={handleSubmit}>
             <div className="input-group">

@@ -7,9 +7,9 @@ const cors = require('cors');
 const relations = require('./src/models/index');
 const sequelize = require('./src/config/db');
 
-//you should allow your frontend only ( assusming your frontend app runs on 3000)
+//you should allow your frontend only ( assusming your frontend app runs on 5173)
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'http://localhost:5173',
 }));
 
 app.use(bodyParser.json());
@@ -18,6 +18,7 @@ app.use(bodyParser.json());
 app.use('/', require('./src/routes/authRoutes'));
 app.use('/', require('./src/routes/dayRoutes'));
 app.use('/', require('./src/routes/calendarRoutes'));
+app.use('/', require('./src/routes/holidayRoutes'));
 
 const PORT = process.env.PORT || 7050;
 
