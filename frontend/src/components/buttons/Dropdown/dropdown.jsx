@@ -1,5 +1,4 @@
 import React from 'react';
-import '../Dropdown/dropdown.scss';
 
 const DropdownYears = ({ selectedYear, onYearChange }) => {
   const years = Array.from({ length: 100 }, (_, i) => i + 2000); 
