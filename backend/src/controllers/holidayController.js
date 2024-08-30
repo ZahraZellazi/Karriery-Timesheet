@@ -1,4 +1,4 @@
-const Holiday = require('../models/holiday.entity'); 
+const { Holiday } = require('../models/holiday.entity'); // Adjust the path if necessary
 
 // Add
 exports.createHoliday = async (req, res) => {

@@ -1,7 +1,7 @@
-const User = require('./user.entity');
+const { Holiday } = require('./holiday.entity'); // Importing only the Holiday model
 const Calendar = require('./calendar.entity');
 const Day = require('./day.entity');
-const Holiday = require('./holiday.entity');
+const User = require('./user.entity');
 
 // User has many calendars (2023, 2024), one-to-many relationship
 Calendar.belongsTo(User, { foreignKey: 'userId' });
@@ -14,7 +14,6 @@ Calendar.hasMany(Day, { foreignKey: 'calendarId' });
 // Calendar has many holidays, one-to-many relationship
 Holiday.belongsTo(Calendar, { foreignKey: 'calendarId' });
 Calendar.hasMany(Holiday, { foreignKey: 'calendarId' });
-
 
 module.exports = {
     User,

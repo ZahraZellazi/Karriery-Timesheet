@@ -26,6 +26,9 @@ const User = sequelizeConfig.define('User', {
   }
 }, {
   timestamps: false
-});
+}
+);
+
+
 
 module.exports = User;
