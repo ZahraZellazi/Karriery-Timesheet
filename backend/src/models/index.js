@@ -1,4 +1,4 @@
-const { Holiday } = require('./holiday.entity'); // Importing only the Holiday model
+const { Holiday } = require('./holiday.entity'); 
 const Calendar = require('./calendar.entity');
 const Day = require('./day.entity');
 const User = require('./user.entity');
