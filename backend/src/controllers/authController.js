@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.entity');
-
+//singup
 const signup = async (req, res) => {
   const { firstname, lastname, email, password, isAdmin } = req.body;
 
@@ -25,7 +25,7 @@ const signup = async (req, res) => {
     res.status(500).json({ code: 'INTERNAL_ERROR', message: 'Internal server error' });
   }
 };
-
+//login
 const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -46,7 +46,7 @@ const login = async (req, res) => {
     res.status(500).json({ code: 'INTERNAL_ERROR', message: 'Internal server error' });
   }
 };
-
+//get
 const getUserById = async (req, res) => {
   const { id } = req.params;
 
@@ -69,7 +69,7 @@ const getAllUsers = async (req, res) => {
     res.status(500).json({ code: 'INTERNAL_ERROR', message: 'Internal server error' });
   }
 };
-
+//update
 const updateUser = async (req, res) => {
   const { id } = req.params;
   const { firstname, lastname, email, password, isAdmin } = req.body;
@@ -97,7 +97,7 @@ const updateUser = async (req, res) => {
     res.status(500).json({ code: 'INTERNAL_ERROR', message: 'Internal server error' });
   }
 };
-
+//del
 const deleteUser = async (req, res) => {
   const { id } = req.params;
 
