@@ -100,10 +100,3 @@ body, html {
 .icon-non-admin {
   color: #f44336; 
 }
-
-.btn-toggle-admin {
-  background: none; 
-  border: none; 
-  cursor: pointer; 
-  font-size: 18px; 
-}

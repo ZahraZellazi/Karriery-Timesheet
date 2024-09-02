@@ -1,0 +1,121 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: rgb(239, 239, 244);
+  padding: 30px;
+  border-radius: 10px;
+  width: 600px;
+  max-width: 95%;
+  color: #333;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.modal-content h2 {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #d13438; }
+
+.modal-content label {
+  display: block;
+  margin-bottom: 5px;
+  color: #d13438; 
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 98%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 2px solid #d13438; 
+  border-radius: 4px;
+  background: transparent;
+  color: #333;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.modal-content input.error,
+.modal-content textarea.error {
+  border-color: red;
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus {
+  border-color: #d13438; 
+}
+
+.modal-content button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #d13438; 
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: background-color 0.5s ease;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.modal-content button:hover {
+  background-color: rgb(239, 239, 244); 
+  color: #d13438; 
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    width: 90%;
+    padding: 20px;
+    height: auto;
+  }
+  .modal-content button {
+    width: 100%;
+    margin-top: 20px;
+    margin-left: 0;
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #aaa;
+  transition: color 0.3s ease;
+}
+
+.modal-close:hover {
+  color: #d13438; 
+}
+
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 5px;
+}
+
+
+
+
+
+
