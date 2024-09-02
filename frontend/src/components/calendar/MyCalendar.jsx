@@ -6,6 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import * as XLSX from 'xlsx';
 import './Calendar.scss';
 import DropdownYears from '../buttons/Dropdown/dropdown';
+import Header from '../adminpanel/header/Header';
 
 const MyCalendar = () => {
   const [startDate, setStartDate] = useState('');
@@ -56,7 +57,7 @@ const MyCalendar = () => {
     const calendarApi = calendarRef.current.getApi();
     const currentMonth = (new Date().getMonth() + 1).toString().padStart(2, '0');
     const currentDay = new Date().getDate().toString().padStart(2, '0');
-    if (year == new Date().getFullYear()) {
+    if (year === new Date().getFullYear()) {
       calendarApi.gotoDate(`${year}-${currentMonth}-${currentDay}`);
     } else {
       calendarApi.gotoDate(`${year}-01-01`);
@@ -65,6 +66,7 @@ const MyCalendar = () => {
 
   return (
     <div className="calendar-container">
+      <Header /> 
       <div className="date-picker-container">
         <div>
           <label htmlFor="start">Start Date: </label>
@@ -122,7 +124,6 @@ const MyCalendar = () => {
           style={{ height: '450px', width: '100%', margin: '0 auto' }}
         />
       </div>
-
     </div>
   )
 };
