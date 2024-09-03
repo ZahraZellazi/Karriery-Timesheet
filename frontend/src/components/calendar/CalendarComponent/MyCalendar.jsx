@@ -5,9 +5,8 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import * as XLSX from 'xlsx';
 import './Calendar.scss';
-import DropdownYears from '../buttons/Dropdown/dropdown';
-import Header from '../adminpanel/header/Header';
-
+import DropdownYears from '../../buttons/Dropdown/dropdown';
+import Header from '../calendarHeader/Header';
 const MyCalendar = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');

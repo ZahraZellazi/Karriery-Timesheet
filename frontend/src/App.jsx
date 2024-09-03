@@ -1,9 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import SignIn from './components/signin/SignIn';
-import MyCalendar from './components/calendar/MyCalendar';
 import UserTable from './components/adminpanel/dashboard/UserTable';
-
+import MyCalendar from './components/calendar/CalendarComponent/MyCalendar';
 function App() {
   return (
     <Router>

@@ -1,12 +1,13 @@
 .calendar-card{
   background-color: #fff;
   border-radius: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  padding: 50px;
+  margin-top: 50px;
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 0px;
 }
 
 .calendar-container {
@@ -14,8 +15,8 @@
     display: flex;
     justify-content: flex-end; 
     align-items: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 70px;
+    margin-bottom: 50px;
     gap: 50px;
 
     label {
