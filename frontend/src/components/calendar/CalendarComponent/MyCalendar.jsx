@@ -7,11 +7,14 @@ import * as XLSX from 'xlsx';
 import './Calendar.scss';
 import DropdownYears from '../../buttons/Dropdown/dropdown';
 import Header from '../calendarHeader/Header';
+import AddHoursModal from '../../modals/AddHours/AddHours Modal';
 const MyCalendar = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [exportEnabled, setExportEnabled] = useState(false);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null); // Store selected date
   const calendarRef = React.createRef();
 
   const minDate = '1000-01-01';
@@ -63,9 +66,14 @@ const MyCalendar = () => {
     }
   };
 
+  const handleDateClick = (info) => {
+    setSelectedDate(info.dateStr); // Store the selected date
+    setIsModalOpen(true); // Open the modal
+  };
+
   return (
     <div className="calendar-container">
-      <Header /> 
+      <Header />
       <div className="date-picker-container">
         <div>
           <label htmlFor="start">Start Date: </label>
@@ -108,13 +116,7 @@ const MyCalendar = () => {
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           selectable
-          dateClick={(info) => {
-            if (!startDate) {
-              handleStartDateChange({ target: { value: info.dateStr } });
-            } else {
-              handleEndDateChange({ target: { value: info.dateStr } });
-            }
-          }}
+          dateClick={handleDateClick} // Trigger the modal on date click
           headerToolbar={{
             left: 'prev,next today',
             center: 'title',
@@ -123,8 +125,13 @@ const MyCalendar = () => {
           style={{ height: '450px', width: '100%', margin: '0 auto' }}
         />
       </div>
+      <AddHoursModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)} // Close the modal
+        selectedDate={selectedDate} // Pass the selected date to the modal
+      />
     </div>
-  )
+  );
 };
 
 export default MyCalendar;

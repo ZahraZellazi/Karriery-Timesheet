@@ -62,18 +62,27 @@ const UserList = () => {
 
   const handleAddUser = async (newUser) => {
     try {
-      const response = await axios.post("http://localhost:7050/signup", newUser);
+      const response = await axios.post(
+        "http://localhost:7050/signup",
+        newUser
+      );
       setUsers((prevUsers) => [...prevUsers, response.data]);
-      setAddModalOpen(false); 
+      setAddModalOpen(false);
     } catch (error) {
-      console.error("Error adding user:", error.response?.data || error.message);
+      console.error(
+        "Error adding user:",
+        error.response?.data || error.message
+      );
       alert("Failed to add user. Please check your input.");
     }
   };
 
   const handleUpdateUser = async (updatedUser) => {
     try {
-      await axios.put(`http://localhost:7050/users/${updatedUser.id}`, updatedUser);
+      await axios.put(
+        `http://localhost:7050/users/${updatedUser.id}`,
+        updatedUser
+      );
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
           user.id === updatedUser.id ? updatedUser : user
@@ -96,7 +105,10 @@ const UserList = () => {
         <div className="user-table-header">
           <h2>User Management</h2>
           <div className="user-table-actions">
-            <button className="btn btn-add-user" onClick={() => setAddModalOpen(true)}>
+            <button
+              className="btn btn-add-user"
+              onClick={() => setAddModalOpen(true)}
+            >
               Add New User
             </button>
           </div>
@@ -123,9 +135,15 @@ const UserList = () => {
                   <button
                     className="btn-toggle-admin"
                     onClick={() => handleToggleAdmin(user.id, user.isAdmin)}
-                    title={`Set ${user.firstname} as ${user.isAdmin ? "user" : "admin"}`}
+                    title={`Set ${user.firstname} as ${
+                      user.isAdmin ? "user" : "admin"
+                    }`}
                   >
-                    {user.isAdmin ? <FaToggleOn /> : <FaToggleOff />}
+                    {user.isAdmin ? (
+                      <FaToggleOn style={{ color: "green" }} /> 
+                    ) : (
+                      <FaToggleOff style={{ color: "red" }} /> 
+                    )}
                   </button>
                 </td>
                 <td>

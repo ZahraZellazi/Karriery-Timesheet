@@ -34,34 +34,44 @@ const EditUserModal = ({ isOpen, onClose, onUpdateUser, user }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className="add-user-modal-overlay">
+      <div className="add-user-modal-content">
+        <button className="add-user-modal-close" onClick={onClose}>✖</button>
         <h2>Edit User</h2>
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="firstname"
-            placeholder="First Name"
-            value={userData.firstname}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="text"
-            name="lastname"
-            placeholder="Last Name"
-            value={userData.lastname}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={userData.email}
-            onChange={handleChange}
-            required
-          />
+          <label>
+            First Name
+            <input
+              type="text"
+              name="firstname"
+              placeholder="First Name"
+              value={userData.firstname}
+              onChange={handleChange}
+              required
+            />
+          </label>
+          <label>
+            Last Name
+            <input
+              type="text"
+              name="lastname"
+              placeholder="Last Name"
+              value={userData.lastname}
+              onChange={handleChange}
+              required
+            />
+          </label>
+          <label>
+            Email
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={userData.email}
+              onChange={handleChange}
+              required
+            />
+          </label>
           <label>
             <input
               type="checkbox"
@@ -71,7 +81,6 @@ const EditUserModal = ({ isOpen, onClose, onUpdateUser, user }) => {
             Admin
           </label>
           <button type="submit">Update User</button>
-          <button type="button" onClick={onClose}>Cancel</button>
         </form>
       </div>
     </div>
