@@ -59,7 +59,8 @@ const Calendar = () => {
     const calendarApi = calendarRef.current.getApi();
     const currentMonth = (new Date().getMonth() + 1).toString().padStart(2, '0');
     const currentDay = new Date().getDate().toString().padStart(2, '0');
-    if (year === new Date().getFullYear()) {
+    if (year == new Date().getFullYear()) {
+      console.log('here');
       calendarApi.gotoDate(`${year}-${currentMonth}-${currentDay}`);
     } else {
       calendarApi.gotoDate(`${year}-01-01`);
