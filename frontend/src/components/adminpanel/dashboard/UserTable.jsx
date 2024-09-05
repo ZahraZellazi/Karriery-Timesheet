@@ -3,8 +3,8 @@ import axios from "axios";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaRegEdit, FaToggleOn, FaToggleOff } from "react-icons/fa";
 import "./UserTable.css";
-
-
+import EditUserModal from "../../shared/modals/editmodal/EditUserModal";
+import AddUserModal from "../../shared/modals/addmodal/AddUserModal";
 const UserList = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);

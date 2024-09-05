@@ -10,6 +10,14 @@
 }
 
 .calendar-container {
+  .fc-daygrid-day {
+    &:hover {
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      transform: scale(1.03); 
+    }
+    
+  }
   .date-picker-container {
     display: flex;
     justify-content: flex-end; 
@@ -32,6 +40,10 @@
       font-size: 14px;
       color: #333;
       background-color: #f9f9f9; 
+
+      &:hover {
+        cursor: pointer; 
+      }
 
       &:focus {
         outline: none;
@@ -70,6 +82,7 @@
     align-items: center; 
     margin-bottom: 20px; 
     gap: 50px; 
+  
 
     label {
       font-size: 14px;
@@ -88,10 +101,11 @@
       font-size: 14px;
       color: #333;
       background-color: #f9f9f9;
-
+     
       &:focus {
         outline: none;
         border-color: #c0392b;
+      
       }
     }
   }
