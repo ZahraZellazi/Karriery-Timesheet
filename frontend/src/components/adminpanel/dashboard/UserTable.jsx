@@ -3,9 +3,7 @@ import axios from "axios";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaRegEdit, FaToggleOn, FaToggleOff } from "react-icons/fa";
 import "./UserTable.css";
-import Header from "../header/Header";
-import AddUserModal from "../../modals/addmodal/AddUserModal";
-import EditUserModal from "../../modals/editmodal/EditUserModal";
+
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -100,7 +98,6 @@ const UserList = () => {
 
   return (
     <div>
-      <Header />
       <div className="user-table-container">
         <div className="user-table-header">
           <h2>User Management</h2>
@@ -176,13 +173,13 @@ const UserList = () => {
         isOpen={isAddModalOpen}
         onClose={() => setAddModalOpen(false)}
         onAddUser={handleAddUser}
-      />
+      ></AddUserModal>
       <EditUserModal
         isOpen={isEditModalOpen}
         onClose={() => setEditModalOpen(false)}
         onUpdateUser={handleUpdateUser}
         user={currentUser}
-      />
+      ></EditUserModal>
     </div>
   );
 };

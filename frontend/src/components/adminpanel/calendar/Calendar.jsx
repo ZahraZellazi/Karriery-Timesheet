@@ -5,16 +5,16 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import * as XLSX from 'xlsx';
 import './Calendar.scss';
-import DropdownYears from '../../buttons/Dropdown/dropdown';
-import Header from '../calendarHeader/Header';
-import AddHoursModal from '../../modals/AddHours/AddHours Modal';
-const MyCalendar = () => {
+import AddHoursModal from '../../shared/modals/AddHours/AddHours Modal';
+import DropdownYears from '../../shared/buttons/Dropdown/dropdown';
+
+const Calendar = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [exportEnabled, setExportEnabled] = useState(false);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null); // Store selected date
+  const [selectedDate, setSelectedDate] = useState(null);
   const calendarRef = React.createRef();
 
   const minDate = '1000-01-01';
@@ -73,7 +73,6 @@ const MyCalendar = () => {
 
   return (
     <div className="calendar-container">
-      <Header />
       <div className="date-picker-container">
         <div>
           <label htmlFor="start">Start Date: </label>
@@ -108,7 +107,8 @@ const MyCalendar = () => {
         </button>
       </div>
       <div className="dropdown-years">
-        <DropdownYears selectedYear={selectedYear} onYearChange={handleYearSelect} />
+
+        <DropdownYears selectedYear={selectedYear} onYearChange={handleYearSelect}></DropdownYears>
       </div>
       <div className='calendar-card'>
         <FullCalendar
@@ -116,7 +116,7 @@ const MyCalendar = () => {
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           selectable
-          dateClick={handleDateClick} // Trigger the modal on date click
+          dateClick={handleDateClick}
           headerToolbar={{
             left: 'prev,next today',
             center: 'title',
@@ -127,11 +127,11 @@ const MyCalendar = () => {
       </div>
       <AddHoursModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)} // Close the modal
-        selectedDate={selectedDate} // Pass the selected date to the modal
+        onClose={() => setIsModalOpen(false)}
+        selectedDate={selectedDate}
       />
     </div>
   );
 };
 
-export default MyCalendar;
+export default Calendar;
