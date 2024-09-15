@@ -32,4 +32,8 @@
   font-size: 24px;
   margin-left: 10px;
 }
-
+.app-header .avatar-container {
+  display: flex;          
+  justify-content: flex-end;
+  margin-left: auto;
+}

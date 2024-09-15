@@ -68,8 +68,8 @@ const Calendar = () => {
   };
 
   const handleDateClick = (info) => {
-    setSelectedDate(info.dateStr); // Store the selected date
-    setIsModalOpen(true); // Open the modal
+    setSelectedDate(info.dateStr); 
+    setIsModalOpen(true); 
   };
 
   return (

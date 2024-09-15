@@ -88,7 +88,12 @@
   font-weight: 600;
   transition: background-color 0.3s ease;
 }
-
+.add-hours-modal-content button[type="submit"]:hover {
+  background-color: #fff; 
+  color: #d13438;
+  border-radius: 4px;
+  cursor: pointer;
+}
 .add-hours-modal-content button[type="submit"]:disabled {
   background-color: #ccc;
   cursor: not-allowed;
@@ -115,4 +120,47 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 10px;
+}
+
+
+.add-hours-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #aaa;
+  transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+}
+
+.add-hours-modal-close:hover {
+  color: #d13438;
+  transform: rotate(90deg); /* Rotate effect */
+}
+
+.return-arrow {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #d13438;
+  transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+}
+
+.return-arrow:hover {
+  transform: translateX(-5px); /* Slight left movement on hover */
+}
+
+.add-hours-modal-content {
+  position: relative;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  width: 400px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

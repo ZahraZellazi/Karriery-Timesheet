@@ -33,7 +33,7 @@ const Holiday = sequelize.define('Holiday', {
   otherTypeHoliday: {
     type: DataTypes.STRING,
     allowNull: true
-  }
+  },
 }, {
   timestamps: false 
 });

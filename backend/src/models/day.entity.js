@@ -18,8 +18,9 @@ const Day = sequelizeConfig.define('Day', {
   number: {
     type: DataTypes.INTEGER,
     defaultValue: false
-  }
-}, {
+  },
+},
+ {
   timestamps: false
 });
 

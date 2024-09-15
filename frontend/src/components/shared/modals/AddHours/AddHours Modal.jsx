@@ -1,113 +1,176 @@
-import React, { useState } from 'react';
-import './AddHoursModal.css'; 
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { FaArrowLeft } from 'react-icons/fa';
+import "./AddHoursModal.css";
 
-const AddHoursModal = ({ isOpen, onClose }) => {
+const AddHoursModal = ({ isOpen, onClose, selectedDate }) => {
+  const [selectionMade, setSelectionMade] = useState(false);
+  const [isWorkDay, setIsWorkDay] = useState(null);
   const [hoursWorked, setHoursWorked] = useState('');
   const [holidayType, setHolidayType] = useState('');
   const [otherHoliday, setOtherHoliday] = useState('');
-  const [isOtherHoliday, setIsOtherHoliday] = useState(false);
+  const [startDay, setStartDay] = useState('');
+  const [endDay, setEndDay] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleHolidayTypeChange = (e) => {
-    const selectedType = e.target.value;
-    setHolidayType(selectedType);
-    setIsOtherHoliday(selectedType === 'OTHER');
-    if (selectedType !== 'OTHER') {
-      setOtherHoliday(''); 
+  useEffect(() => {
+    if (selectedDate) {
+      setStartDay(selectedDate);
     }
-  };
+  }, [selectedDate]);
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
+    const dayOfWeek = new Date(selectedDate).getDay();
+    const year = new Date(selectedDate).getFullYear();
 
-    if (Number(hoursWorked) <= 0) {
-      alert('Please enter a valid number of hours greater than zero.');
-      return;
+    const body = {
+      userId: 7,
+      year,
+      dayNumber: dayOfWeek + 1,
+      dayName: new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(new Date(selectedDate)),
+      hours: isWorkDay ? hoursWorked : null,
+      holidayType: !isWorkDay ? holidayType : null,
+      otherHoliday: holidayType === 'OTHER' ? otherHoliday : null,
+      startDay: !isWorkDay ? startDay : null,
+      endDay: !isWorkDay ? endDay : null,
+    };
+
+    try {
+      const res = await axios.post('http://localhost:7050/calendars', body);
+      alert('Data submitted successfully!');
+      setHoursWorked('');
+      setHolidayType('');
+      setOtherHoliday('');
+      setStartDay(selectedDate);
+      setEndDay('');
+      onClose();
+    } catch (error) {
+      console.error('Error posting data:', error);
+      setErrorMessage('Failed to submit data. Please try again.');
     }
-
-    if (holidayType === 'OTHER' && !otherHoliday.trim()) {
-      alert('Please specify the other holiday type.');
-      return;
-    }
-
-    console.log({ hoursWorked, holidayType, otherHoliday });
-    
-    setHoursWorked('');
-    setHolidayType('');
-    setOtherHoliday('');
-    setIsOtherHoliday(false);
-
-    onClose();
   };
 
-  const isFormIncomplete = () => {
-    return !hoursWorked || !holidayType || (holidayType === 'OTHER' && !otherHoliday.trim());
+  const handleWorkDaySelect = () => {
+    setIsWorkDay(true);
+    setSelectionMade(true);
   };
 
-  return isOpen ? (
-    <div className="add-hours-modal-overlay" role="dialog" aria-modal="true">
-      <div className="add-hours-modal-content">
-        <button 
-          className="add-hours-modal-close" 
-          onClick={onClose}
-          aria-label="Close modal"
-        >
-          ×
-        </button>
-        <h2>Add Work Hours</h2>
-        <form onSubmit={handleFormSubmit}>
-          <label htmlFor="hoursWorked">Hours Worked</label>
-          <input
-            id="hoursWorked"
-            type="number"
-            value={hoursWorked}
-            onChange={(e) => setHoursWorked(e.target.value)}
-            required
-            aria-required="true"
-            aria-label="Hours Worked"
-            min="1"
-          />
-          
-          <label htmlFor="holidayType">Is this day a holiday?</label>
-          <select
-            id="holidayType"
-            value={holidayType}
-            onChange={handleHolidayTypeChange}
-            required
-            aria-required="true"
-            aria-label="Holiday Type"
-          >
-            <option value="">Select a Holiday Type</option>
-            <option value="PUBLIC_HOLIDAY">Public Holiday</option>
-            <option value="PERSONNEL_HOLIDAY">Personnel Holiday</option>
-            <option value="OTHER">Other</option>
-          </select>
-          
-          {isOtherHoliday && (
-            <div className="other-holiday-input">
-              <label htmlFor="otherHoliday">Specify Other Holiday</label>
-              <input
-                id="otherHoliday"
-                type="text"
-                value={otherHoliday}
-                onChange={(e) => setOtherHoliday(e.target.value)}
-                required
-                aria-required="true"
-                aria-label="Other Holiday Type"
-              />
+  const handleHolidaySelect = () => {
+    setIsWorkDay(false);
+    setSelectionMade(true);
+  };
+
+  const handleReturn = () => {
+    setSelectionMade(false);
+    setIsWorkDay(null);
+  };
+
+  return (
+    isOpen && (
+      <div className="add-hours-modal-overlay">
+        <div className="add-hours-modal-content">
+          {selectionMade && (
+            <button className="return-arrow" onClick={handleReturn}>
+              <FaArrowLeft />
+            </button>
+          )}
+
+          <button className="add-hours-modal-close" onClick={onClose}>×</button>
+          <h2>Add Hours or Holiday</h2>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+
+          {!selectionMade && (
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  value="workDay"
+                  checked={isWorkDay === true}
+                  onChange={handleWorkDaySelect}
+                />
+                Work Day
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value="holiday"
+                  checked={isWorkDay === false}
+                  onChange={handleHolidaySelect}
+                />
+                Holiday
+              </label>
             </div>
           )}
-          
-          <button 
-            type="submit" 
-            disabled={isFormIncomplete()}
-            aria-disabled={isFormIncomplete()}
-          >
-            Add Hours
-          </button>
-        </form>
+
+          {selectionMade && isWorkDay && (
+            <form onSubmit={handleFormSubmit}>
+              <label htmlFor="hoursWorked">Hours Worked:</label>
+              <input
+                type="number"
+                id="hoursWorked"
+                value={hoursWorked}
+                onChange={(e) => setHoursWorked(e.target.value)}
+                required
+              />
+              <div className="btn-group">
+                <button type="button" className="close-btn" onClick={onClose}>Cancel</button>
+                <button type="submit">Submit</button>
+              </div>
+            </form>
+          )}
+
+          {selectionMade && !isWorkDay && (
+            <form onSubmit={handleFormSubmit}>
+              <label htmlFor="startDay">Start Day:</label>
+              <input
+                type="date"
+                id="startDay"
+                value={startDay}
+                onChange={(e) => setStartDay(e.target.value)}
+                required
+              />
+
+              <label htmlFor="endDay">End Day:</label>
+              <input
+                type="date"
+                id="endDay"
+                value={endDay}
+                onChange={(e) => setEndDay(e.target.value)}
+                required
+              />
+
+              <label htmlFor="holidayType">Holiday Type:</label>
+              <select
+                id="holidayType"
+                value={holidayType}
+                onChange={(e) => setHolidayType(e.target.value)}
+                required
+              >
+                <option value="">Select Holiday Type</option>
+                <option value="PUBLIC_HOLIDAY">Public Holiday</option>
+                <option value="OTHER">Other</option>
+              </select>
+
+              {holidayType === 'OTHER' && (
+                <input
+                  type="text"
+                  placeholder="Specify other holiday"
+                  value={otherHoliday}
+                  onChange={(e) => setOtherHoliday(e.target.value)}
+                />
+              )}
+
+              <div className="btn-group">
+                <button type="button" className="close-btn" onClick={onClose}>Cancel</button>
+                <button type="submit">Submit</button>
+              </div>
+            </form>
+          )}
+        </div>
       </div>
-    </div>
-  ) : null;
+    )
+  );
 };
 
 export default AddHoursModal;

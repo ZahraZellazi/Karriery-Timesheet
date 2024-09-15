@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaRegEdit, FaToggleOn, FaToggleOff } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import "./UserTable.css";
 import EditUserModal from "../../shared/modals/editmodal/EditUserModal";
 import AddUserModal from "../../shared/modals/addmodal/AddUserModal";
+
 const UserList = () => {
   const [users, setUsers] = useState([]);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
@@ -20,10 +22,10 @@ const UserList = () => {
         if (Array.isArray(response.data)) {
           setUsers(response.data);
         } else {
-          setError("Unexpected response format");
+          toast.error("Unexpected response format");
         }
       } catch (err) {
-        setError("Failed to fetch users");
+        toast.error("Failed to fetch users");
         console.error(err);
       } finally {
         setLoading(false);
@@ -42,8 +44,10 @@ const UserList = () => {
           user.id === id ? { ...user, isAdmin: !currentStatus } : user
         )
       );
+      toast.success("User admin status updated successfully");
     } catch (error) {
-      console.error("Failed to update admin status:", error);
+      toast.error("Failed to update admin status");
+      console.error(error);
     }
   };
 
@@ -52,8 +56,10 @@ const UserList = () => {
       try {
         await axios.delete(`http://localhost:7050/users/${id}`);
         setUsers(users.filter((user) => user.id !== id));
+        toast.success("User deleted successfully");
       } catch (error) {
-        console.error("Error deleting user:", error);
+        toast.error("Error deleting user");
+        console.error(error);
       }
     }
   };
@@ -66,12 +72,10 @@ const UserList = () => {
       );
       setUsers((prevUsers) => [...prevUsers, response.data]);
       setAddModalOpen(false);
+      toast.success("User added successfully");
     } catch (error) {
-      console.error(
-        "Error adding user:",
-        error.response?.data || error.message
-      );
-      alert("Failed to add user. Please check your input.");
+      console.error(error.response?.data || error.message);
+      toast.error("Failed to add user. Please check your input.");
     }
   };
 
@@ -87,17 +91,25 @@ const UserList = () => {
         )
       );
       setEditModalOpen(false);
+      toast.success("User updated successfully");
     } catch (error) {
-      console.error("Error updating user:", error);
-      alert("Failed to update user. Please check your input.");
+      toast.error("Failed to update user");
+      console.error(error);
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) {
+    return (
+      <div className="loader-container">
+        <div className="loader"></div>
+      </div>
+    );
+  }
 
   return (
     <div>
+      <ToastContainer />
+
       <div className="user-table-container">
         <div className="user-table-header">
           <h2>User Management</h2>
@@ -137,9 +149,9 @@ const UserList = () => {
                     }`}
                   >
                     {user.isAdmin ? (
-                      <FaToggleOn style={{ color: "green" }} /> 
+                      <FaToggleOn style={{ color: "green" }} />
                     ) : (
-                      <FaToggleOff style={{ color: "red" }} /> 
+                      <FaToggleOff style={{ color: "red" }} />
                     )}
                   </button>
                 </td>
@@ -173,13 +185,13 @@ const UserList = () => {
         isOpen={isAddModalOpen}
         onClose={() => setAddModalOpen(false)}
         onAddUser={handleAddUser}
-      ></AddUserModal>
+      />
       <EditUserModal
         isOpen={isEditModalOpen}
         onClose={() => setEditModalOpen(false)}
         onUpdateUser={handleUpdateUser}
         user={currentUser}
-      ></EditUserModal>
+      />
     </div>
   );
 };
