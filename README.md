@@ -22,7 +22,7 @@
     ``$ npm i --save``
 - Run App .
 
-    ``npm run dev``
+    ``npm start``
 
 
 
