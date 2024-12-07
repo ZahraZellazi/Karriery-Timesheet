@@ -17,7 +17,7 @@
 
 - install dependencies.
 
-    ``$ cd frontend``
+    ``$ cd backend``
 
     ``$ npm i --save``
 - Run App .
